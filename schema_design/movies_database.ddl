@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS content.film_work
     created timestamp with time zone,
     modified timestamp with time zone,
     CONSTRAINT film_work_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS content.genre
 (
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS content.genre
     created timestamp with time zone,
     modified timestamp with time zone,
     CONSTRAINT genre_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS content.genre_film_work
 (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS content.genre_film_work
         REFERENCES content.genre (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
+);
 
 CREATE TABLE IF NOT EXISTS content.person
 (
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS content.person
     created timestamp with time zone,
     modified timestamp with time zone,
     CONSTRAINT person_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS content.person_film_work
 (
@@ -65,5 +65,10 @@ CREATE TABLE IF NOT EXISTS content.person_film_work
         REFERENCES content.person (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
+);
 
+CREATE UNIQUE INDEX genre_film_work_idx ON content.genre_film_work (film_work_id, genre_id);
+CREATE UNIQUE INDEX person_film_work_idx ON content.person_film_work (film_work_id, person_id);
+
+CREATE INDEX full_name_person_idx ON content.person (full_name);
+CREATE INDEX title_film_idx ON content.film_work (title);
